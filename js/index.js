@@ -4,6 +4,11 @@ const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameover.mp3');
 const moveSound = new Audio('music/move.mp3');
 
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
 let speed = 19;
 let score = 0;
 let lastPaintTime = 0;
@@ -144,3 +149,36 @@ window.addEventListener('keydown', e =>{
     }
 
 });
+// Touch event listeners
+window.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+});
+
+window.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].clientX;
+    touchEndY = e.changedTouches[0].clientY;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    let diffX = touchEndX - touchStartX;
+    let diffY = touchEndY - touchStartY;
+
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+        // Horizontal swipe
+        if (diffX > 0) {
+            inputDir = {x: 1, y: 0}; // Swipe right
+        } else {
+            inputDir = {x: -1, y: 0}; // Swipe left
+        }
+    } else {
+        // Vertical swipe
+        if (diffY > 0) {
+            inputDir = {x: 0, y: 1}; // Swipe down
+        } else {
+            inputDir = {x: 0, y: -1}; // Swipe up
+        }
+    }
+    moveSound.play();
+}
