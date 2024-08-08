@@ -9,7 +9,7 @@ let touchStartY = 0;
 let touchEndX = 0;
 let touchEndY = 0;
 
-let speed = 19;
+let speed = 2;
 let score = 0;
 let lastPaintTime = 0;
 let snakeArr = [
@@ -22,7 +22,7 @@ food = {x: 6, y: 7};
 function main(ctime) {
     window.requestAnimationFrame(main);
     // console.log(ctime)
-    if((ctime - lastPaintTime)/10000 < 1/speed){
+    if((ctime - lastPaintTime)/1000 < 1/speed){
         return;
     }
     lastPaintTime = ctime;
@@ -58,6 +58,7 @@ function gameEngine(){
     if(snakeArr[0].y === food.y && snakeArr[0].x ===food.x){
         foodSound.play();
         score += 1;
+        speed+=0.02;
         if(score>hiscoreval){
             hiscoreval = score;
             localStorage.setItem("hiscore", JSON.stringify(hiscoreval));
